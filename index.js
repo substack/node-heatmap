@@ -85,14 +85,6 @@ Heat.prototype.draw = function () {
         }
     }
     
-    this.clearCanvas();
     this.canvas.getContext('2d').putImageData(heat, 0, 0);
-    return this;
-};
-
-Heat.prototype.clearCanvas = function () {
-    var ctx = this.canvas.getContext('2d');
-    ctx.fillStyle = null;
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     return this;
 };
