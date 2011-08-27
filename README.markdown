@@ -44,10 +44,15 @@ height, or an option object with canvas or width and height fields.
 Optionally, you can set the `opts.radius` and `opts.threshold` to control the
 rendering a little.
 
-heat.addPoint(x, y, radius=heat.radius || 20)
----------------------------------------------
+heat.addPoint(x, y, params)
+---------------------------
 
 Add a point to the heatmap with a `radius`.
+
+`params` can have:
+
+* radius, defaults to heat.radius || 20
+* weight, defaults to 0.1
 
 heat.scale(x, y)
 ----------------
