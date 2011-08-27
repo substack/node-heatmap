@@ -67,12 +67,16 @@ Heat.prototype.scale = function (x, y) {
     return this;
 };
 
-Heat.prototype.addPoint = function (x, y, radius) {
+Heat.prototype.addPoint = function (x, y, params) {
     var ctx = this.alphaCanvas.getContext('2d');
-    if (!radius) radius = this.radius;
+    if (typeof params === 'number') {
+        params = { radius : params };
+    }
+    if (!params) params = {};
+    var radius = params.radius || this.radius;
     
     var g = ctx.createRadialGradient(x, y, 0, x, y, radius);
-    var a = 1 / 10;
+    var a = params.weight || (1 / 10);
     
     g.addColorStop(0, 'rgba(255,255,255,' + a + ')');
     g.addColorStop(1, 'rgba(255,255,255,0)');
