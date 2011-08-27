@@ -44,10 +44,28 @@ function Heat (canvas, opts) {
     if (!opts) opts = {};
     
     this.canvas = canvas;
-    this.alphaCanvas = createCanvas(canvas.width, canvas.height);
+    this.width = canvas.width;
+    this.height = canvas.height;
+    
+    this.alphaCanvas = createCanvas(this.width, this.height);
     this.radius = opts.radius || 20;
     this.threshold = opts.threshold || 0;
+    this.scalar = { x : 1, y : 1 };
 }
+
+Heat.prototype.scale = function (x, y) {
+    if (y === undefined) y = x;
+    
+    this.scalar.x = x;
+    this.scalar.y = y;
+    
+    this.canvas.width = this.width * x;
+    this.canvas.height = this.height * y;
+    
+    this.canvas.getContext('2d').scale(x, y);
+    
+    return this;
+};
 
 Heat.prototype.addPoint = function (x, y, radius) {
     var ctx = this.alphaCanvas.getContext('2d');
@@ -70,21 +88,30 @@ Heat.prototype.draw = function () {
     var height = this.canvas.height;
     var ctx = this.alphaCanvas.getContext('2d');
     
-    var values = ctx.getImageData(0, 0, width, height);
+    var values = ctx.getImageData(0, 0, this.width, this.height);
     var heat = ctx.createImageData(width, height);
     
-    for (var i = 0; i < values.data.length; i += 4) {
-        var v = values.data[i+3];
-        if (v > this.threshold) {
-            var theta = (1 - values.data[i+3] / 255) * 270;
-            var rgb = convert.hsl2rgb(theta, 100, 50);
-            heat.data[i] = rgb[0];
-            heat.data[i+1] = rgb[1];
-            heat.data[i+2] = rgb[2];
-            heat.data[i+3] = v;
+    for (var hy = 0; hy < height; hy++) {
+        var vy = Math.floor(hy / this.scalar.y);
+        
+        for (var hx = 0; hx < width; hx++) {
+            var vx = Math.floor(hx / this.scalar.x);
+            var vi = 4 * (vy * this.width + vx);
+            var hi = 4 * (hy * width + hx);
+            
+            var v = values.data[vi + 3];
+            if (v > this.threshold) {
+                var theta = (1 - v / 255) * 270;
+                var rgb = convert.hsl2rgb(theta, 100, 50);
+                heat.data[hi] = rgb[0];
+                heat.data[hi+1] = rgb[1];
+                heat.data[hi+2] = rgb[2];
+                heat.data[hi+3] = v;
+            }
         }
     }
     
     this.canvas.getContext('2d').putImageData(heat, 0, 0);
+    
     return this;
 };
