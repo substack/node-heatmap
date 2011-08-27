@@ -49,6 +49,13 @@ heat.addPoint(x, y, radius=heat.radius || 20)
 
 Add a point to the heatmap with a `radius`.
 
+heat.scale(x, y)
+----------------
+
+Scale the canvas by the coefficients `x` and `y`.
+
+If `y` is undefined, scale both x and y by the first parameter, `x`.
+
 heat.draw()
 -----------
 
