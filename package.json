@@ -1,6 +1,6 @@
 {
     "name" : "heatmap",
-    "version" : "0.0.5",
+    "version" : "0.0.6",
     "description" : "canvas heat maps for node and the browser",
     "main" : "index.js",
     "directories" : {
@@ -9,8 +9,8 @@
         "test" : "test"
     },
     "dependencies" : {
-        "color-convert" : "0.2.x",
-        "canvas" : "1.0.x"
+        "color-convert" : "0.5.x",
+        "canvas" : "1.2.x"
     },
     "devDependencies" : {
         "expresso" : "0.7.x",
