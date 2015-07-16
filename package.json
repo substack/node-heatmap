@@ -10,7 +10,7 @@
     },
     "dependencies" : {
         "color-convert" : "0.2.x",
-        "canvas" : "1.0.x"
+        "canvas" : "1.x.x"
     },
     "devDependencies" : {
         "expresso" : "0.7.x",
